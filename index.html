@@ -191,6 +191,7 @@
 <footer>Evans Fest 2027 · 24 &amp; 25 July 2027</footer>
 
 <script>
+  const BOOKING_API_URL = "https://script.google.com/macros/s/AKfycbyzV6sbQq0jJWqZj1T3xCluXF4Y7NRxn2XBzLipzP28KyRdFjVOapIHA69Dg8IUnM_r/exec";
   const EARLY_BIRD_END = new Date("2026-09-30T23:59:59+01:00");
 
   const earlyBirdPrices = {
@@ -290,8 +291,9 @@
     });
   });
 
-  document.getElementById("checkoutBtn").addEventListener("click", () => {
+  document.getElementById("checkoutBtn").addEventListener("click", async () => {
     const status = document.getElementById("checkoutStatus");
+    const checkoutBtn = document.getElementById("checkoutBtn");
     const selected = getSelectedItems();
 
     const customer = {
@@ -331,10 +333,52 @@
       createdAt: new Date().toISOString()
     };
 
-    console.log("Evans Fest order ready:", order);
-
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = "CREATING BOOKING...";
     status.className = "status ok";
-    status.textContent = `Order ready: ${selected.reduce((sum, item) => sum + item.qty, 0)} item(s), ${money(total)}. The next step is connecting this to SumUp.`;
+    status.textContent = "Creating your Evans Fest booking...";
+
+    try {
+      const response = await fetch(BOOKING_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(order)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || "Booking could not be created.");
+      }
+
+      status.className = "status ok";
+      status.innerHTML = `
+        <strong>Booking created!</strong><br>
+        Your reference is <strong>${data.bookingRef}</strong><br>
+        Total: <strong>${money(data.total)}</strong><br><br>
+        Payment status: <strong>${data.paymentStatus}</strong><br>
+        <span style="font-weight:400;">SumUp payment will be connected next.</span>
+      `;
+
+      checkoutBtn.textContent = "BOOKING CREATED";
+      checkoutBtn.disabled = true;
+
+      console.log("Booking created:", data);
+
+    } catch (err) {
+      console.error("Booking error:", err);
+      status.className = "status error";
+      status.textContent = "We couldn't create your booking. Please try again.";
+
+      checkoutBtn.disabled = false;
+      checkoutBtn.textContent = "BOOK & PAY";
+    }
   });
 
   updatePricingModeUI();
