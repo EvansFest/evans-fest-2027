@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6b46c1" />
+  <title>Evans Fest 2027 Tickets</title>
+  <style>
+    :root {
+      --ink:#1f2937; --muted:#6b7280; --paper:#fffaf3; --card:#fff; --line:#eadfd3;
+      --purple:#6b46c1; --pink:#e84a9b; --orange:#f28b35; --green:#2f9e78; --blue:#3b82f6;
+      --shadow:0 16px 40px rgba(44,32,23,.10); --radius:24px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at 10% 0%,rgba(232,74,155,.12),transparent 28%),
+      radial-gradient(circle at 90% 8%,rgba(242,139,53,.16),transparent 30%),
+      linear-gradient(180deg,#fff8ef 0%,#fffdf8 100%);color:var(--ink)}
+    .hero{position:relative;overflow:hidden;padding:72px 20px 90px;color:#fff;
+      background:radial-gradient(circle at 12% 25%,rgba(255,255,255,.18),transparent 16%),
+      radial-gradient(circle at 82% 18%,rgba(255,255,255,.14),transparent 18%),
+      linear-gradient(135deg,#6b46c1 0%,#9c3fc7 42%,#e84a9b 100%)}
+    .hero::after{content:"";position:absolute;inset:auto -5% -54px -5%;height:120px;background:var(--paper);
+      border-radius:50% 50% 0 0/100% 100% 0 0}
+    .hero-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;text-align:center}
+    .eyebrow{display:inline-flex;padding:9px 14px;border:1px solid rgba(255,255,255,.25);
+      background:rgba(255,255,255,.10);border-radius:999px;font-weight:700;letter-spacing:.02em}
+    .hero h1{margin:18px 0 12px;font-size:clamp(44px,8vw,82px);line-height:.95;letter-spacing:-.055em}
+    .hero p{max-width:720px;margin:0 auto;font-size:clamp(18px,2.2vw,24px);line-height:1.5;color:rgba(255,255,255,.9)}
+    .hero-meta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .hero-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:10px 14px;font-weight:800}
+    .shell{max-width:1180px;margin:0 auto;padding:12px 20px 80px}
+    .pricing-banner{background:linear-gradient(135deg,#fff2c9,#ffe4a4);border:1px solid #efd792;border-radius:20px;padding:18px 20px;margin:18px 0 4px;text-align:center;box-shadow:var(--shadow)}
+    .pricing-banner strong{display:block;font-size:19px;margin-bottom:4px}.pricing-banner span{color:#6f5517}
+    .section-heading{margin:34px 0 18px}.section-heading h2{margin:0 0 8px;font-size:clamp(28px,4vw,42px);letter-spacing:-.03em}
+    .section-heading p{margin:0;color:var(--muted);font-size:17px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .product{position:relative;display:flex;flex-direction:column;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);min-height:215px}
+    .product::before{content:"";position:absolute;top:0;left:24px;right:24px;height:5px;border-radius:0 0 8px 8px;background:var(--accent,var(--purple))}
+    .product-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+    .product h3{margin:0 0 7px;font-size:22px}.product p{margin:0;color:var(--muted);line-height:1.45}
+    .price{white-space:nowrap;font-size:22px;font-weight:900;color:var(--accent,var(--purple))}
+    .price-note{font-size:12px;color:var(--muted);margin-top:3px;text-align:right}
+    .controls{margin-top:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .stepper{display:inline-grid;grid-template-columns:42px 56px 42px;align-items:center;border:1px solid #ded7d0;border-radius:14px;overflow:hidden;background:#fff}
+    .stepper button{border:0;height:42px;font-size:24px;background:#f7f4f0;cursor:pointer;color:var(--ink)}
+    .stepper button:hover{background:#eee8e1}.qty{text-align:center;font-weight:800;font-size:17px}
+    input{width:100%;border:1px solid #d9d4cd;border-radius:14px;padding:13px 14px;font:inherit;background:#fff;color:var(--ink);outline:none}
+    input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(107,70,193,.12)}
+    .layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,.75fr);gap:26px;align-items:start;margin-top:26px}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .panel h2{margin-top:0;margin-bottom:18px;font-size:28px}
+    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field.full{grid-column:1/-1}
+    label{display:block;font-weight:750;margin-bottom:7px;font-size:14px}
+    .basket{position:sticky;top:18px}
+    .basket-empty{color:var(--muted);background:#faf8f5;border:1px dashed #d8d0c8;border-radius:16px;padding:18px;text-align:center}
+    .basket-line{display:grid;grid-template-columns:1fr auto;gap:12px;padding:13px 0;border-bottom:1px solid #eee8e1}
+    .basket-line strong{display:block;margin-bottom:2px}.basket-meta{color:var(--muted);font-size:13px}.basket-price{font-weight:850;white-space:nowrap}
+    .total-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding-top:18px;margin-top:6px;font-size:21px;font-weight:900}
+    .total-row span:last-child{font-size:30px;color:var(--purple)}
+    .checkout{width:100%;margin-top:18px;border:0;border-radius:16px;padding:16px 20px;font-size:17px;font-weight:900;color:#fff;
+      background:linear-gradient(135deg,var(--purple),var(--pink));cursor:pointer;box-shadow:0 10px 24px rgba(107,70,193,.22)}
+    .checkout:disabled{cursor:not-allowed;opacity:.45;box-shadow:none}
+    .note{color:var(--muted);font-size:13px;line-height:1.5;margin-top:12px;text-align:center}
+    .status{display:none;margin-top:14px;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:700}
+    .status.error{display:block;background:#fff0f0;color:#a32929;border:1px solid #f2c6c6}
+    .status.ok{display:block;background:#edf9f3;color:#177155;border:1px solid #bfe6d5}
+    footer{text-align:center;color:var(--muted);padding:24px 20px 50px}
+    @media(max-width:850px){.grid,.layout,.fields{grid-template-columns:1fr}.basket{position:static}.field.full{grid-column:auto}}
+    @media(max-width:540px){.hero{padding-top:54px;padding-bottom:72px}.shell{padding-inline:14px}.product,.panel{border-radius:20px;padding:18px}.product-top{flex-direction:column;gap:8px}.price-note{text-align:left}}
+  </style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">EVANS FEST 2027 · TICKETS</div>
+    <h1>Get Festival Ready.</h1>
+    <p>Choose your tickets, add your Rodeo Bull rides and get your Evans Fest 2027 booking started.</p>
+    <div class="hero-meta">
+      <div class="hero-pill">24 &amp; 25 July 2027</div>
+      <div class="hero-pill" id="heroPricingMode">Early Bird Pricing</div>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+  <div class="pricing-banner" id="pricingBanner">
+    <strong>Early Bird pricing is live</strong>
+    <span>Available until 30 September 2026.</span>
+  </div>
+
+  <section>
+    <div class="section-heading">
+      <h2>Tickets</h2>
+      <p>Pick the ticket types you need. Your basket only shows what you actually select.</p>
+    </div>
+
+    <div class="grid">
+      <article class="product" style="--accent:#6b46c1">
+        <div class="product-top">
+          <div><h3>Weekender Adult</h3><p>Adult admission for both festival days.</p></div>
+          <div><div class="price" id="price-weekendAdult">£30</div><div class="price-note" id="note-weekendAdult">Early Bird</div></div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="weekendAdult">−</button>
+          <div class="qty" id="qty-weekendAdult">0</div>
+          <button type="button" data-action="plus" data-key="weekendAdult">+</button>
+        </div></div>
+      </article>
+
+      <article class="product" style="--accent:#e84a9b">
+        <div class="product-top">
+          <div><h3>Weekender Child</h3><p>Child admission for both festival days.</p></div>
+          <div><div class="price" id="price-weekendChild">£5</div><div class="price-note" id="note-weekendChild">Early Bird</div></div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="weekendChild">−</button>
+          <div class="qty" id="qty-weekendChild">0</div>
+          <button type="button" data-action="plus" data-key="weekendChild">+</button>
+        </div></div>
+      </article>
+
+      <article class="product" style="--accent:#f28b35">
+        <div class="product-top">
+          <div><h3>Saturday Adult</h3><p>Adult day admission for Saturday 24 July 2027.</p></div>
+          <div><div class="price" id="price-saturdayAdult">£12</div><div class="price-note" id="note-saturdayAdult">Early Bird</div></div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="saturdayAdult">−</button>
+          <div class="qty" id="qty-saturdayAdult">0</div>
+          <button type="button" data-action="plus" data-key="saturdayAdult">+</button>
+        </div></div>
+      </article>
+
+      <article class="product" style="--accent:#2f9e78">
+        <div class="product-top">
+          <div><h3>Saturday Child</h3><p>Child day admission for Saturday 24 July 2027.</p></div>
+          <div><div class="price" id="price-saturdayChild">£5</div><div class="price-note" id="note-saturdayChild">Early Bird</div></div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="saturdayChild">−</button>
+          <div class="qty" id="qty-saturdayChild">0</div>
+          <button type="button" data-action="plus" data-key="saturdayChild">+</button>
+        </div></div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>Festival Extra</h2>
+      <p>Add Rodeo Bull rides to your booking before checkout.</p>
+    </div>
+    <div class="grid">
+      <article class="product" style="--accent:#3b82f6">
+        <div class="product-top">
+          <div><h3>Rodeo Bull Ride</h3><p>Pre-book your Rodeo Bull rides. Quantity is the number of rides.</p></div>
+          <div class="price">£2.50</div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="rodeo">−</button>
+          <div class="qty" id="qty-rodeo">0</div>
+          <button type="button" data-action="plus" data-key="rodeo">+</button>
+        </div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="layout">
+    <div class="panel">
+      <h2>Your Details</h2>
+      <div class="fields">
+        <div class="field"><label for="firstName">First name</label><input id="firstName" type="text" autocomplete="given-name" placeholder="First name" /></div>
+        <div class="field"><label for="lastName">Last name</label><input id="lastName" type="text" autocomplete="family-name" placeholder="Last name" /></div>
+        <div class="field full"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
+        <div class="field full"><label for="phone">Phone number</label><input id="phone" type="tel" autocomplete="tel" placeholder="07..." /></div>
+      </div>
+    </div>
+
+    <aside class="panel basket">
+      <h2>Your Order</h2>
+      <div id="basketLines"><div class="basket-empty">Nothing added yet. Choose your tickets or Rodeo Bull rides above.</div></div>
+      <div class="total-row"><span>Total</span><span id="basketTotal">£0.00</span></div>
+      <button id="checkoutBtn" class="checkout" type="button" disabled>BOOK &amp; PAY</button>
+      <div class="note">SumUp checkout will be connected next. No payment is taken from this preview version.</div>
+      <div id="checkoutStatus" class="status"></div>
+    </aside>
+  </section>
+</main>
+
+<footer>Evans Fest 2027 · 24 &amp; 25 July 2027</footer>
+
+<script>
+  const EARLY_BIRD_END = new Date("2026-09-30T23:59:59+01:00");
+
+  const earlyBirdPrices = {
+    weekendAdult: 30.00,
+    weekendChild: 5.00,
+    saturdayAdult: 12.00,
+    saturdayChild: 5.00
+  };
+
+  const standardPrices = {
+    weekendAdult: 35.00,
+    weekendChild: 5.00,
+    saturdayAdult: 15.00,
+    saturdayChild: 5.00
+  };
+
+  const isEarlyBird = new Date() <= EARLY_BIRD_END;
+  const activeTicketPrices = isEarlyBird ? earlyBirdPrices : standardPrices;
+
+  const products = {
+    weekendAdult:  { name: "Weekender Adult", price: activeTicketPrices.weekendAdult, type: "ticket" },
+    weekendChild:  { name: "Weekender Child", price: activeTicketPrices.weekendChild, type: "ticket" },
+    saturdayAdult: { name: "Saturday Adult", price: activeTicketPrices.saturdayAdult, type: "ticket" },
+    saturdayChild: { name: "Saturday Child", price: activeTicketPrices.saturdayChild, type: "ticket" },
+    rodeo:         { name: "Rodeo Bull Ride", price: 2.50, type: "extra" }
+  };
+
+  const quantities = Object.fromEntries(Object.keys(products).map(key => [key, 0]));
+
+  const money = value =>
+    new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(value);
+
+  function updatePricingModeUI() {
+    document.getElementById("heroPricingMode").textContent =
+      isEarlyBird ? "Early Bird Pricing" : "Standard Pricing";
+
+    const banner = document.getElementById("pricingBanner");
+    banner.innerHTML = isEarlyBird
+      ? "<strong>Early Bird pricing is live</strong><span>Available until 30 September 2026.</span>"
+      : "<strong>Standard pricing now applies</strong><span>Early Bird pricing ended on 30 September 2026.</span>";
+
+    ["weekendAdult","weekendChild","saturdayAdult","saturdayChild"].forEach(key => {
+      document.getElementById(`price-${key}`).textContent = money(products[key].price);
+      document.getElementById(`note-${key}`).textContent = isEarlyBird ? "Early Bird" : "Standard";
+    });
+  }
+
+  function updateQtyDisplay(key) {
+    document.getElementById(`qty-${key}`).textContent = quantities[key];
+  }
+
+  function getSelectedItems() {
+    return Object.entries(quantities)
+      .filter(([, qty]) => qty > 0)
+      .map(([key, qty]) => {
+        const product = products[key];
+        return { key, name: product.name, type: product.type, qty, unitPrice: product.price, lineTotal: qty * product.price };
+      });
+  }
+
+  function renderBasket() {
+    const selected = getSelectedItems();
+    const basketLines = document.getElementById("basketLines");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+
+    if (!selected.length) {
+      basketLines.innerHTML = '<div class="basket-empty">Nothing added yet. Choose your tickets or Rodeo Bull rides above.</div>';
+      document.getElementById("basketTotal").textContent = money(0);
+      checkoutBtn.disabled = true;
+      return;
+    }
+
+    basketLines.innerHTML = selected.map(item => `
+      <div class="basket-line">
+        <div>
+          <strong>${item.qty} × ${item.name}</strong>
+          <div class="basket-meta">${money(item.unitPrice)} each</div>
+        </div>
+        <div class="basket-price">${money(item.lineTotal)}</div>
+      </div>
+    `).join("");
+
+    const total = selected.reduce((sum, item) => sum + item.lineTotal, 0);
+    document.getElementById("basketTotal").textContent = money(total);
+    checkoutBtn.disabled = false;
+  }
+
+  document.querySelectorAll("[data-action]").forEach(button => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.key;
+      quantities[key] = button.dataset.action === "plus"
+        ? quantities[key] + 1
+        : Math.max(0, quantities[key] - 1);
+
+      updateQtyDisplay(key);
+      renderBasket();
+    });
+  });
+
+  document.getElementById("checkoutBtn").addEventListener("click", () => {
+    const status = document.getElementById("checkoutStatus");
+    const selected = getSelectedItems();
+
+    const customer = {
+      firstName: document.getElementById("firstName").value.trim(),
+      lastName: document.getElementById("lastName").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      phone: document.getElementById("phone").value.trim()
+    };
+
+    if (!selected.length) {
+      status.className = "status error";
+      status.textContent = "Please add at least one item to your order.";
+      return;
+    }
+
+    if (!customer.firstName || !customer.lastName || !customer.email || !customer.phone) {
+      status.className = "status error";
+      status.textContent = "Please complete your name, email address and phone number.";
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
+      status.className = "status error";
+      status.textContent = "Please enter a valid email address.";
+      return;
+    }
+
+    const total = selected.reduce((sum, item) => sum + item.lineTotal, 0);
+
+    const order = {
+      event: "Evans Fest 2027",
+      eventDates: ["2027-07-24", "2027-07-25"],
+      pricingTier: isEarlyBird ? "Early Bird" : "Standard",
+      customer,
+      items: selected,
+      total,
+      createdAt: new Date().toISOString()
+    };
+
+    console.log("Evans Fest order ready:", order);
+
+    status.className = "status ok";
+    status.textContent = `Order ready: ${selected.reduce((sum, item) => sum + item.qty, 0)} item(s), ${money(total)}. The next step is connecting this to SumUp.`;
+  });
+
+  updatePricingModeUI();
+  renderBasket();
+</script>
+</body>
+</html>
