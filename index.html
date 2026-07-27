@@ -381,7 +381,7 @@
     } catch (err) {
       console.error("Booking error:", err);
       status.className = "status error";
-      status.textContent = "We couldn't create your booking. Please try again.";
+      status.textContent = "ERROR: " + err.message;
 
       checkoutBtn.disabled = false;
       checkoutBtn.textContent = "BOOK & PAY";
