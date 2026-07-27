@@ -163,6 +163,21 @@
           <button type="button" data-action="plus" data-key="rodeo">+</button>
         </div></div>
       </article>
+
+      <article class="product" style="--accent:#6b7280">
+        <div class="product-top">
+          <div>
+            <h3>Test Ticket</h3>
+            <p>Temporary £0.01 ticket for testing the SumUp payment system.</p>
+          </div>
+          <div class="price">£0.01</div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="testTicket">−</button>
+          <div class="qty" id="qty-testTicket">0</div>
+          <button type="button" data-action="plus" data-key="testTicket">+</button>
+        </div></div>
+      </article>
     </div>
   </section>
 
@@ -216,7 +231,8 @@
     weekendChild:  { name: "Weekender Child", price: activeTicketPrices.weekendChild, type: "ticket" },
     saturdayAdult: { name: "Saturday Adult", price: activeTicketPrices.saturdayAdult, type: "ticket" },
     saturdayChild: { name: "Saturday Child", price: activeTicketPrices.saturdayChild, type: "ticket" },
-    rodeo:         { name: "Rodeo Bull Ride", price: 2.50, type: "extra" }
+    rodeo:         { name: "Rodeo Bull Ride", price: 2.50, type: "extra" },
+    testTicket:    { name: "Test Ticket", price: 0.01, type: "test" }
   };
 
   const quantities = Object.fromEntries(Object.keys(products).map(key => [key, 0]));
