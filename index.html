@@ -182,7 +182,7 @@
       <div id="basketLines"><div class="basket-empty">Nothing added yet. Choose your tickets or Rodeo Bull rides above.</div></div>
       <div class="total-row"><span>Total</span><span id="basketTotal">£0.00</span></div>
       <button id="checkoutBtn" class="checkout" type="button" disabled>BOOK &amp; PAY</button>
-      <div class="note">SumUp checkout will be connected next. No payment is taken from this preview version.</div>
+      <div class="note">After your booking is created, you’ll be taken to SumUp to complete secure payment.</div>
       <div id="checkoutStatus" class="status"></div>
     </aside>
   </section>
@@ -357,28 +357,34 @@
         throw new Error(data.error || "Booking could not be created.");
       }
 
+      if (!data.paymentUrl) {
+        throw new Error("Booking was created, but no SumUp payment URL was returned.");
+      }
+
       status.className = "status ok";
       status.innerHTML = `
         <strong>Booking created!</strong><br>
         Your reference is <strong>${data.bookingRef}</strong><br>
         Total: <strong>${money(data.total)}</strong><br><br>
-        Payment status: <strong>${data.paymentStatus}</strong><br>
-        <span style="font-weight:400;">SumUp payment will be connected next.</span>
+        <strong>Opening secure SumUp payment...</strong>
       `;
 
-      checkoutBtn.textContent = "BOOKING CREATED";
+      checkoutBtn.textContent = "OPENING SECURE PAYMENT...";
       checkoutBtn.disabled = true;
 
       console.log("Booking created:", data);
 
-} catch (err) {
-  console.error("Booking error:", err);
+      setTimeout(() => {
+        window.location.href = data.paymentUrl;
+      }, 1200);
 
-  status.className = "status error";
-  status.textContent = "ERROR: " + err.message;
+    } catch (err) {
+      console.error("Booking error:", err);
+      status.className = "status error";
+      status.textContent = "We couldn't create your booking. Please try again.";
 
-  checkoutBtn.disabled = false;
-  checkoutBtn.textContent = "BOOK & PAY";
+      checkoutBtn.disabled = false;
+      checkoutBtn.textContent = "BOOK & PAY";
     }
   });
 
