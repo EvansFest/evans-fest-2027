@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evans Fest 2027 - Payment</title>
+  <style>
+    :root {
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --purple:#6b46c1;
+      --pink:#e84a9b;
+      --green:#177155;
+      --red:#a32929;
+      --amber:#8a6717;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 28px 18px;
+      display: grid;
+      place-items: center;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(232,74,155,.12), transparent 30%),
+        radial-gradient(circle at 85% 0%, rgba(107,70,193,.14), transparent 30%),
+        #fffaf3;
+    }
+
+    .card {
+      width: min(600px, 100%);
+      padding: 34px;
+      border: 1px solid #eadfd3;
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: 0 20px 55px rgba(44,32,23,.12);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: #f3edff;
+      color: var(--purple);
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(34px, 7vw, 56px);
+      line-height: 1;
+      letter-spacing: -.045em;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 17px;
+    }
+
+    .ref {
+      margin: 22px 0;
+      padding: 17px;
+      border-radius: 16px;
+      background: #faf8f5;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: .03em;
+    }
+
+    .status {
+      margin: 18px 0;
+      padding: 18px;
+      border-radius: 18px;
+      font-weight: 800;
+    }
+
+    .pending { background:#fff7df; color:var(--amber); }
+    .paid { background:#edf9f3; color:var(--green); }
+    .failed { background:#fff0f0; color:var(--red); }
+
+    .spinner {
+      width: 34px;
+      height: 34px;
+      margin: 16px auto;
+      border: 4px solid #eee7fb;
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .button {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 13px 20px;
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="badge">EVANS FEST 2027</div>
+    <h1 id="title">Confirming payment...</h1>
+    <p id="message">Please wait while we confirm your payment securely with SumUp.</p>
+
+    <div class="ref" id="refBox"></div>
+
+    <div id="statusBox" class="status pending">
+      Checking payment status...
+      <div class="spinner"></div>
+    </div>
+
+    <p id="extraMessage"></p>
+  </main>
+
+  <script>
+    // IMPORTANT:
+    // This is your deployed Apps Script booking API.
+    const BOOKING_API_URL =
+      "https://script.google.com/macros/s/AKfycbyzV6sbQq0jJWqZj1T3xCluXF4Y7NRxn2XBzLipzP28KyRdFjVOapIHA69Dg8IUnM_r/exec";
+
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref") || "";
+
+    document.getElementById("refBox").textContent =
+      ref ? `Booking ${ref}` : "Booking reference missing";
+
+    let attempts = 0;
+    const maxAttempts = 20;
+
+    async function checkStatus() {
+      attempts++;
+
+      if (!ref) {
+        showFailed("We couldn't find your booking reference.");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `${BOOKING_API_URL}?action=status&ref=${encodeURIComponent(ref)}`
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || "Booking lookup failed.");
+        }
+
+        const payment = String(data.paymentStatus || "").toLowerCase();
+
+        if (payment === "paid") {
+          showPaid(data);
+          return;
+        }
+
+        if (payment === "failed" || payment === "expired") {
+          showFailed(
+            payment === "expired"
+              ? "This payment session has expired."
+              : "The payment was not completed successfully."
+          );
+          return;
+        }
+
+        if (attempts < maxAttempts) {
+          document.getElementById("statusBox").innerHTML =
+            `Payment is still being confirmed...<div class="spinner"></div>`;
+
+          setTimeout(checkStatus, 2000);
+        } else {
+          document.getElementById("title").textContent =
+            "Payment is processing";
+
+          document.getElementById("message").textContent =
+            "Your booking exists, but payment confirmation is taking a little longer than expected.";
+
+          document.getElementById("statusBox").className =
+            "status pending";
+
+          document.getElementById("statusBox").textContent =
+            "Please keep your booking reference. Payment status will be verified by the booking system.";
+        }
+
+      } catch (error) {
+        console.error(error);
+
+        if (attempts < maxAttempts) {
+          setTimeout(checkStatus, 2500);
+        } else {
+          showFailed("We couldn't check your booking status right now.");
+        }
+      }
+    }
+
+    function showPaid(data) {
+      document.getElementById("title").textContent =
+        "You're going to Evans Fest!";
+
+      document.getElementById("message").textContent =
+        `Thanks ${data.firstName || ""}. Your payment has been confirmed.`;
+
+      const box = document.getElementById("statusBox");
+      box.className = "status paid";
+      box.innerHTML =
+        `Payment confirmed<br><strong>£${Number(data.total).toFixed(2)}</strong>`;
+
+      document.getElementById("extraMessage").textContent =
+        "Your ticket confirmation will be sent to the email address on your booking.";
+    }
+
+    function showFailed(message) {
+      document.getElementById("title").textContent =
+        "Payment not confirmed";
+
+      document.getElementById("message").textContent = message;
+
+      const box = document.getElementById("statusBox");
+      box.className = "status failed";
+      box.textContent =
+        "Please return to the Evans Fest ticket page and try again.";
+    }
+
+    checkStatus();
+  </script>
+</body>
+</html>
