@@ -81,6 +81,35 @@
     .donation-btn.active{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--purple),var(--pink))}
     .custom-donation{display:none;margin-top:14px;max-width:240px}
     .donation-note{margin-top:12px;font-size:13px;color:var(--muted)}
+
+    .payment-confirmation{display:none;margin-top:28px}
+    .payment-confirmation.active{display:block}
+    .payment-card{
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      padding:28px;box-shadow:var(--shadow);max-width:760px;margin:0 auto;text-align:center
+    }
+    .payment-success{
+      width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;
+      background:#edf9f3;color:#177155;font-size:30px;font-weight:900
+    }
+    .payment-card h2{margin:0 0 8px;font-size:32px;letter-spacing:-.03em}
+    .payment-card>p{color:var(--muted);line-height:1.55}
+    .payment-amount{font-size:42px;font-weight:900;color:var(--purple);margin:14px 0 4px}
+    .payment-ref{
+      display:inline-block;margin:8px 0 20px;padding:12px 16px;border-radius:14px;
+      background:#f3edff;color:var(--purple);font-size:26px;font-weight:900;letter-spacing:.05em
+    }
+    .bank-details{
+      margin:20px auto 0;max-width:560px;text-align:left;border:1px solid #eadfd3;
+      border-radius:18px;padding:4px 18px;background:#fffdf8
+    }
+    .bank-row{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid #eee8e1}
+    .bank-row:last-child{border-bottom:0}.bank-row span{color:var(--muted)}.bank-row strong{text-align:right}
+    .payment-note{
+      margin-top:20px;padding:16px 18px;border-radius:16px;background:#fff7df;
+      border:1px solid #efd792;color:#6f5517;line-height:1.55;text-align:left
+    }
+
     footer{text-align:center;color:var(--muted);padding:24px 20px 50px}
     @media(max-width:850px){.grid,.layout,.fields{grid-template-columns:1fr}.basket{position:static}.field.full{grid-column:auto}}
     @media(max-width:540px){.hero{padding-top:54px;padding-bottom:72px}.shell{padding-inline:14px}.product,.panel{border-radius:20px;padding:18px}.product-top{flex-direction:column;gap:8px}.price-note{text-align:left}}
@@ -108,14 +137,14 @@
   <section>
     <div class="section-heading">
       <h2>Tickets</h2>
-      <p>Select your tickets below.</p>
+      <p>Pick the ticket types you need. Your basket only shows what you actually select.</p>
     </div>
 
     <div class="grid">
       <article class="product" style="--accent:#6b46c1">
         <div class="product-top">
           <div><h3>Weekender Adult</h3><p>Adult admission for Friday 23 & Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-weekendAdult">£30</div><div class="standard-price" id="standard-weekendAdult">£35</div><div class="price-note" id="note-weekendAdult">Early Bird</div></div>
+          <div><div class="price" id="price-weekendAdult">£35</div><div class="standard-price" id="standard-weekendAdult">£45</div><div class="price-note" id="note-weekendAdult">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
           <button type="button" data-action="minus" data-key="weekendAdult">−</button>
@@ -126,37 +155,13 @@
 
       <article class="product" style="--accent:#e84a9b">
         <div class="product-top">
-          <div><h3>Weekender Child</h3><p>Child admission for Friday 23 & Saturday 24 July 2027. (Under 2 free)</p></div>
+          <div><h3>Weekender Child</h3><p>Child admission for Friday 23 & Saturday 24 July 2027.</p></div>
           <div><div class="price" id="price-weekendChild">£5</div><div class="standard-price" id="standard-weekendChild">£5</div><div class="price-note" id="note-weekendChild">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
           <button type="button" data-action="minus" data-key="weekendChild">−</button>
           <div class="qty" id="qty-weekendChild">0</div>
           <button type="button" data-action="plus" data-key="weekendChild">+</button>
-        </div></div>
-      </article>
-
-      <article class="product" style="--accent:#f28b35">
-        <div class="product-top">
-          <div><h3>Saturday Adult</h3><p>Adult day admission for Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-saturdayAdult">£12</div><div class="standard-price" id="standard-saturdayAdult">£15</div><div class="price-note" id="note-saturdayAdult">Early Bird</div></div>
-        </div>
-        <div class="controls"><div class="stepper">
-          <button type="button" data-action="minus" data-key="saturdayAdult">−</button>
-          <div class="qty" id="qty-saturdayAdult">0</div>
-          <button type="button" data-action="plus" data-key="saturdayAdult">+</button>
-        </div></div>
-      </article>
-
-      <article class="product" style="--accent:#2f9e78">
-        <div class="product-top">
-          <div><h3>Saturday Child</h3><p>Child day admission for Saturday 24 July 2027.(Under 2 free)</p></div>
-          <div><div class="price" id="price-saturdayChild">£5</div><div class="standard-price" id="standard-saturdayChild">£5</div><div class="price-note" id="note-saturdayChild">Early Bird</div></div>
-        </div>
-        <div class="controls"><div class="stepper">
-          <button type="button" data-action="minus" data-key="saturdayChild">−</button>
-          <div class="qty" id="qty-saturdayChild">0</div>
-          <button type="button" data-action="plus" data-key="saturdayChild">+</button>
         </div></div>
       </article>
     </div>
@@ -179,7 +184,7 @@
       <input id="customDonation" type="number" inputmode="decimal" min="0" max="500" step="0.01" placeholder="0.00" />
     </div>
 
-    <div class="donation-note">Donations are completely optional.</div>
+    <div class="donation-note">Donations are completely optional and are added to your final booking total.</div>
   </section>
 
   <section class="layout">
@@ -197,12 +202,52 @@
       <h2>Your Order</h2>
       <div id="basketLines"><div class="basket-empty">Nothing added yet. Choose your tickets above.</div></div>
       <div class="total-row"><span>Total</span><span id="basketTotal">£0.00</span></div>
-      <button id="checkoutBtn" class="checkout" type="button" disabled>BOOK &amp; PAY</button>
-      <div class="note">After your booking is created, you’ll be taken to SumUp to complete secure payment.</div>
+      <button id="checkoutBtn" class="checkout" type="button" disabled>BOOK TICKETS</button>
+      <div class="note">After your booking is created, your bank transfer details and unique payment reference will be shown.</div>
       <div id="checkoutStatus" class="status"></div>
     </aside>
   </section>
 </main>
+
+
+<section class="shell payment-confirmation" id="paymentConfirmation">
+  <div class="payment-card">
+    <div class="payment-success">✓</div>
+    <h2>Booking Received</h2>
+    <p>Your Evans Fest booking has been created. Please pay by bank transfer using the details below.</p>
+
+    <div class="payment-amount" id="paymentAmount">£0.00</div>
+
+    <div style="margin-top:18px;color:var(--muted);font-size:14px;">Your booking reference</div>
+    <div class="payment-ref" id="paymentReference"></div>
+
+    <h3 style="font-size:22px;margin:8px 0 10px;">Bank Transfer Details</h3>
+
+    <div class="bank-details">
+      <div class="bank-row">
+        <span>Name on account</span>
+        <strong id="bankAccountName">Michelle Babington</strong>
+      </div>
+      <div class="bank-row">
+        <span>Sort code</span>
+        <strong id="bankSortCode">11-12-14</strong>
+      </div>
+      <div class="bank-row">
+        <span>Account number</span>
+        <strong id="bankAccountNumber">11150862</strong>
+      </div>
+      <div class="bank-row">
+        <span>Payment reference</span>
+        <strong id="bankPaymentReference"></strong>
+      </div>
+    </div>
+
+    <div class="payment-note">
+      <strong>Important:</strong> Please use your booking reference exactly as shown above when making the transfer.
+      Your QR tickets will be emailed automatically once your payment has been manually confirmed.
+    </div>
+  </div>
+</section>
 
 <footer>Evans Fest 2027 · 23 &amp; 24 July 2027</footer>
 
@@ -211,27 +256,21 @@
   const EARLY_BIRD_END = new Date("2026-09-30T23:59:59+01:00");
 
   const earlyBirdPrices = {
-    weekendAdult: 30.00,
-    weekendChild: 5.00,
-    saturdayAdult: 12.00,
-    saturdayChild: 5.00
+    weekendAdult: 35.00,
+    weekendChild: 5.00
   };
 
   const standardPrices = {
-    weekendAdult: 35.00,
-    weekendChild: 5.00,
-    saturdayAdult: 15.00,
-    saturdayChild: 5.00
+    weekendAdult: 45.00,
+    weekendChild: 5.00
   };
 
   const isEarlyBird = new Date() <= EARLY_BIRD_END;
   const activeTicketPrices = isEarlyBird ? earlyBirdPrices : standardPrices;
 
   const products = {
-    weekendAdult:  { name: "Weekender Adult", price: activeTicketPrices.weekendAdult, type: "ticket" },
-    weekendChild:  { name: "Weekender Child", price: activeTicketPrices.weekendChild, type: "ticket" },
-    saturdayAdult: { name: "Saturday Adult", price: activeTicketPrices.saturdayAdult, type: "ticket" },
-    saturdayChild: { name: "Saturday Child", price: activeTicketPrices.saturdayChild, type: "ticket" },
+    weekendAdult: { name: "Weekender Adult", price: activeTicketPrices.weekendAdult, type: "ticket" },
+    weekendChild: { name: "Weekender Child", price: activeTicketPrices.weekendChild, type: "ticket" }
   };
 
   const quantities = Object.fromEntries(Object.keys(products).map(key => [key, 0]));
@@ -249,7 +288,7 @@
       ? "<strong>Early Bird pricing is live</strong><span>Available until 30 September 2026.</span>"
       : "<strong>Standard pricing now applies</strong><span>Early Bird pricing ended on 30 September 2026.</span>";
 
-    ["weekendAdult","weekendChild","saturdayAdult","saturdayChild"].forEach(key => {
+    ["weekendAdult","weekendChild"].forEach(key => {
       document.getElementById(`price-${key}`).textContent = money(products[key].price);
       document.getElementById(`note-${key}`).textContent = isEarlyBird ? "Early Bird" : "Standard";
 
@@ -424,26 +463,36 @@
         throw new Error(data.error || "Booking could not be created.");
       }
 
-      if (!data.paymentUrl) {
-        throw new Error("Booking was created, but no SumUp payment URL was returned.");
+      if (!data.payment || !data.bookingRef) {
+        throw new Error("Booking was created, but the bank transfer details were not returned.");
       }
+
+      document.getElementById("paymentAmount").textContent = money(data.total);
+      document.getElementById("paymentReference").textContent = data.bookingRef;
+      document.getElementById("bankPaymentReference").textContent =
+        data.payment.reference || data.bookingRef;
+
+      document.getElementById("bankAccountName").textContent =
+        data.payment.accountName || "Michelle Babington";
+
+      document.getElementById("bankSortCode").textContent =
+        data.payment.sortCode || "11-12-14";
+
+      document.getElementById("bankAccountNumber").textContent =
+        data.payment.accountNumber || "11150862";
 
       status.className = "status ok";
       status.innerHTML = `
         <strong>Booking created!</strong><br>
-        Your reference is <strong>${data.bookingRef}</strong><br>
-        Total: <strong>${money(data.total)}</strong><br><br>
-        <strong>Opening secure SumUp payment...</strong>
+        Your reference is <strong>${data.bookingRef}</strong>.
       `;
 
-      checkoutBtn.textContent = "OPENING SECURE PAYMENT...";
-      checkoutBtn.disabled = true;
+      document.querySelector("main.shell").style.display = "none";
+      document.getElementById("paymentConfirmation").classList.add("active");
 
       console.log("Booking created:", data);
 
-      setTimeout(() => {
-        window.location.href = data.paymentUrl;
-      }, 1200);
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
     } catch (err) {
       console.error("Booking error:", err);
@@ -451,7 +500,7 @@
       status.textContent = "ERROR: " + err.message;
 
       checkoutBtn.disabled = false;
-      checkoutBtn.textContent = "BOOK & PAY";
+      checkoutBtn.textContent = "BOOK TICKETS";
     }
   });
 
