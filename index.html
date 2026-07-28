@@ -75,9 +75,9 @@
   <div class="hero-inner">
     <div class="eyebrow">EVANS FEST 2027 · TICKETS</div>
     <h1>Get Festival Ready.</h1>
-    <p>Choose your tickets, add your Rodeo Bull rides and get your Evans Fest 2027 booking started.</p>
+    <p>Choose your tickets and get your Evans Fest 2027 booking started.</p>
     <div class="hero-meta">
-      <div class="hero-pill">24 &amp; 25 July 2027</div>
+      <div class="hero-pill">23 &amp; 24 July 2027</div>
       <div class="hero-pill" id="heroPricingMode">Early Bird Pricing</div>
     </div>
   </div>
@@ -98,7 +98,7 @@
     <div class="grid">
       <article class="product" style="--accent:#6b46c1">
         <div class="product-top">
-          <div><h3>Weekender Adult</h3><p>Adult admission for both festival days.</p></div>
+          <div><h3>Weekender Adult</h3><p>Adult admission for Friday 23 & Saturday 24 July 2027.</p></div>
           <div><div class="price" id="price-weekendAdult">£30</div><div class="price-note" id="note-weekendAdult">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
@@ -110,7 +110,7 @@
 
       <article class="product" style="--accent:#e84a9b">
         <div class="product-top">
-          <div><h3>Weekender Child</h3><p>Child admission for both festival days.</p></div>
+          <div><h3>Weekender Child</h3><p>Child admission for Friday 23 & Saturday 24 July 2027.</p></div>
           <div><div class="price" id="price-weekendChild">£5</div><div class="price-note" id="note-weekendChild">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
@@ -145,43 +145,7 @@
       </article>
     </div>
   </section>
-
-  <section>
-    <div class="section-heading">
-      <h2>Festival Extra</h2>
-      <p>Add Rodeo Bull rides to your booking before checkout.</p>
-    </div>
-    <div class="grid">
-      <article class="product" style="--accent:#3b82f6">
-        <div class="product-top">
-          <div><h3>Rodeo Bull Ride</h3><p>Pre-book your Rodeo Bull rides. Quantity is the number of rides.</p></div>
-          <div class="price">£2.50</div>
-        </div>
-        <div class="controls"><div class="stepper">
-          <button type="button" data-action="minus" data-key="rodeo">−</button>
-          <div class="qty" id="qty-rodeo">0</div>
-          <button type="button" data-action="plus" data-key="rodeo">+</button>
-        </div></div>
-      </article>
-
-      <article class="product" style="--accent:#6b7280">
-        <div class="product-top">
-          <div>
-            <h3>Test Ticket</h3>
-            <p>Temporary £1.00 ticket for testing the SumUp payment system.</p>
-          </div>
-          <div class="price">£1.00</div>
-        </div>
-        <div class="controls"><div class="stepper">
-          <button type="button" data-action="minus" data-key="testTicket">−</button>
-          <div class="qty" id="qty-testTicket">0</div>
-          <button type="button" data-action="plus" data-key="testTicket">+</button>
-        </div></div>
-      </article>
-    </div>
-  </section>
-
-  <section class="layout">
+<section class="layout">
     <div class="panel">
       <h2>Your Details</h2>
       <div class="fields">
@@ -194,7 +158,7 @@
 
     <aside class="panel basket">
       <h2>Your Order</h2>
-      <div id="basketLines"><div class="basket-empty">Nothing added yet. Choose your tickets or Rodeo Bull rides above.</div></div>
+      <div id="basketLines"><div class="basket-empty">Nothing added yet. Choose your tickets above.</div></div>
       <div class="total-row"><span>Total</span><span id="basketTotal">£0.00</span></div>
       <button id="checkoutBtn" class="checkout" type="button" disabled>BOOK &amp; PAY</button>
       <div class="note">After your booking is created, you’ll be taken to SumUp to complete secure payment.</div>
@@ -203,7 +167,7 @@
   </section>
 </main>
 
-<footer>Evans Fest 2027 · 24 &amp; 25 July 2027</footer>
+<footer>Evans Fest 2027 · 23 &amp; 24 July 2027</footer>
 
 <script>
   const BOOKING_API_URL = "https://script.google.com/macros/s/AKfycbyzV6sbQq0jJWqZj1T3xCluXF4Y7NRxn2XBzLipzP28KyRdFjVOapIHA69Dg8IUnM_r/exec";
@@ -231,8 +195,6 @@
     weekendChild:  { name: "Weekender Child", price: activeTicketPrices.weekendChild, type: "ticket" },
     saturdayAdult: { name: "Saturday Adult", price: activeTicketPrices.saturdayAdult, type: "ticket" },
     saturdayChild: { name: "Saturday Child", price: activeTicketPrices.saturdayChild, type: "ticket" },
-    rodeo:         { name: "Rodeo Bull Ride", price: 2.50, type: "extra" },
-    testTicket:    { name: "Test Ticket", price: 1.00, type: "test" }
   };
 
   const quantities = Object.fromEntries(Object.keys(products).map(key => [key, 0]));
@@ -274,7 +236,7 @@
     const checkoutBtn = document.getElementById("checkoutBtn");
 
     if (!selected.length) {
-      basketLines.innerHTML = '<div class="basket-empty">Nothing added yet. Choose your tickets or Rodeo Bull rides above.</div>';
+      basketLines.innerHTML = '<div class="basket-empty">Nothing added yet. Choose your tickets above.</div>';
       document.getElementById("basketTotal").textContent = money(0);
       checkoutBtn.disabled = true;
       return;

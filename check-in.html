@@ -404,8 +404,7 @@
         ["Weekender Adult", b.weekendAdult],
         ["Weekender Child", b.weekendChild],
         ["Saturday Adult", b.saturdayAdult],
-        ["Saturday Child", b.saturdayChild],
-        ["Rodeo Bull Ride", b.rodeo]
+        ["Saturday Child", b.saturdayChild]
       ].filter(([,qty]) => Number(qty) > 0);
 
       const ticketsHtml = ticketLines.map(([name,qty]) => `
