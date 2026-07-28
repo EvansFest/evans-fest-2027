@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6b46c1" />
+  <title>Evans Fest 2027 Check-In</title>
+
+  <style>
+    :root{
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --paper:#fffaf3;
+      --card:#ffffff;
+      --line:#eadfd3;
+      --purple:#6b46c1;
+      --pink:#e84a9b;
+      --green:#177155;
+      --green-bg:#edf9f3;
+      --red:#a32929;
+      --red-bg:#fff0f0;
+      --amber:#8a6717;
+      --amber-bg:#fff7df;
+      --shadow:0 18px 45px rgba(44,32,23,.12);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 15% 0%,rgba(232,74,155,.12),transparent 28%),
+        radial-gradient(circle at 85% 4%,rgba(107,70,193,.14),transparent 30%),
+        linear-gradient(180deg,#fff8ef,#fffdf8);
+    }
+
+    .hero{
+      padding:32px 18px 46px;
+      text-align:center;
+      color:#fff;
+      background:linear-gradient(135deg,#6b46c1 0%,#9c3fc7 42%,#e84a9b 100%);
+    }
+
+    .hero .eyebrow{
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1.8px;
+    }
+
+    .hero h1{
+      margin:8px 0 6px;
+      font-size:clamp(34px,7vw,54px);
+      line-height:1;
+      letter-spacing:-.04em;
+    }
+
+    .hero p{
+      margin:0;
+      opacity:.9;
+    }
+
+    .shell{
+      width:min(760px,100%);
+      margin:-22px auto 0;
+      padding:0 14px 50px;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:20px;
+      margin-bottom:16px;
+    }
+
+    .pin-row,.manual-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+    }
+
+    input{
+      width:100%;
+      border:1px solid #d9d4cd;
+      border-radius:14px;
+      padding:13px 14px;
+      font:inherit;
+      outline:none;
+      background:#fff;
+    }
+
+    input:focus{
+      border-color:var(--purple);
+      box-shadow:0 0 0 3px rgba(107,70,193,.12);
+    }
+
+    button{
+      border:0;
+      border-radius:14px;
+      padding:13px 18px;
+      font:inherit;
+      font-weight:850;
+      cursor:pointer;
+    }
+
+    .primary{
+      color:#fff;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+    }
+
+    .secondary{
+      color:var(--purple);
+      background:#f3edff;
+    }
+
+    .danger{
+      color:var(--red);
+      background:var(--red-bg);
+    }
+
+    #reader{
+      width:100%;
+      overflow:hidden;
+      border-radius:18px;
+    }
+
+    .hint{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    #result{
+      display:none;
+    }
+
+    .result-box{
+      border-radius:20px;
+      padding:20px;
+    }
+
+    .result-box.valid{background:var(--green-bg);border:1px solid #bfe6d5}
+    .result-box.warning{background:var(--amber-bg);border:1px solid #efd792}
+    .result-box.invalid{background:var(--red-bg);border:1px solid #f2c6c6}
+
+    .result-title{
+      margin:0 0 8px;
+      font-size:28px;
+      font-weight:900;
+    }
+
+    .valid .result-title{color:var(--green)}
+    .warning .result-title{color:var(--amber)}
+    .invalid .result-title{color:var(--red)}
+
+    .ref{
+      margin:12px 0 18px;
+      padding:12px 14px;
+      background:rgba(255,255,255,.72);
+      border-radius:14px;
+      font-weight:900;
+      letter-spacing:.05em;
+    }
+
+    .details{
+      display:grid;
+      gap:8px;
+      margin:14px 0;
+    }
+
+    .detail-line{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      border-bottom:1px solid rgba(31,41,55,.08);
+      padding:7px 0;
+    }
+
+    .detail-line span:first-child{color:var(--muted)}
+    .detail-line strong{text-align:right}
+
+    .action-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .action-row button{flex:1}
+
+    .scanner-state{
+      text-align:center;
+      font-weight:750;
+      color:var(--muted);
+      margin:0 0 14px;
+    }
+
+    @media(max-width:560px){
+      .pin-row,.manual-row{grid-template-columns:1fr}
+      .pin-row button,.manual-row button{width:100%}
+      .detail-line{align-items:flex-start}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="eyebrow">EVANS FEST 2027 · STAFF</div>
+    <h1>Ticket Check-In</h1>
+    <p>Scan a guest QR code or enter their booking reference.</p>
+  </header>
+
+  <main class="shell">
+    <section class="card">
+      <div class="pin-row">
+        <input id="staffPin" type="password" inputmode="numeric" placeholder="Staff PIN" autocomplete="off" />
+        <button class="secondary" id="savePinBtn" type="button">SAVE PIN</button>
+      </div>
+      <p class="hint">The PIN is stored only in this browser session.</p>
+    </section>
+
+    <section class="card">
+      <p class="scanner-state" id="scannerState">Ready to scan</p>
+      <div id="reader"></div>
+    </section>
+
+    <section class="card">
+      <div class="manual-row">
+        <input id="manualRef" type="text" placeholder="EF27-XXXXXX" autocomplete="off" />
+        <button class="secondary" id="lookupBtn" type="button">LOOK UP</button>
+      </div>
+    </section>
+
+    <section class="card" id="result">
+      <div id="resultContent"></div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script>
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbyzV6sbQq0jJWqZj1T3xCluXF4Y7NRxn2XBzLipzP28KyRdFjVOapIHA69Dg8IUnM_r/exec";
+
+    let qr;
+    let scannerRunning = false;
+    let processing = false;
+    let currentRef = "";
+
+    const money = value =>
+      new Intl.NumberFormat("en-GB", {
+        style:"currency",
+        currency:"GBP"
+      }).format(Number(value || 0));
+
+    function getPin() {
+      return sessionStorage.getItem("evansFestStaffPin") || "";
+    }
+
+    function setPin(pin) {
+      sessionStorage.setItem("evansFestStaffPin", pin);
+    }
+
+    document.getElementById("staffPin").value = getPin();
+
+    document.getElementById("savePinBtn").addEventListener("click", () => {
+      const pin = document.getElementById("staffPin").value.trim();
+      setPin(pin);
+      document.getElementById("scannerState").textContent =
+        pin ? "PIN saved — ready to scan" : "Enter a staff PIN";
+    });
+
+    document.getElementById("lookupBtn").addEventListener("click", () => {
+      lookupRef(document.getElementById("manualRef").value);
+    });
+
+    document.getElementById("manualRef").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        lookupRef(e.target.value);
+      }
+    });
+
+    async function startScanner() {
+      if (scannerRunning) return;
+
+      qr = qr || new Html5Qrcode("reader");
+
+      try {
+        await qr.start(
+          { facingMode:"environment" },
+          {
+            fps:10,
+            qrbox:{ width:250, height:250 }
+          },
+          async decodedText => {
+            if (processing) return;
+
+            processing = true;
+            await lookupRef(decodedText);
+          }
+        );
+
+        scannerRunning = true;
+        document.getElementById("scannerState").textContent = "Camera active — scan a ticket";
+      } catch (error) {
+        console.error(error);
+        document.getElementById("scannerState").textContent =
+          "Camera unavailable — use manual lookup below";
+      }
+    }
+
+    async function stopScanner() {
+      if (!qr || !scannerRunning) return;
+
+      try {
+        await qr.stop();
+      } catch (error) {
+        console.error(error);
+      }
+
+      scannerRunning = false;
+    }
+
+    function normaliseRef(value) {
+      return String(value || "").trim().toUpperCase();
+    }
+
+    async function lookupRef(value) {
+      const ref = normaliseRef(value);
+      const pin = getPin();
+
+      if (!pin) {
+        showError("Enter and save the staff PIN first.");
+        processing = false;
+        return;
+      }
+
+      if (!ref) {
+        showError("Enter or scan a booking reference.");
+        processing = false;
+        return;
+      }
+
+      currentRef = ref;
+      document.getElementById("scannerState").textContent = `Looking up ${ref}...`;
+
+      try {
+        const response = await fetch(
+          `${API_URL}?action=lookup&ref=${encodeURIComponent(ref)}&pin=${encodeURIComponent(pin)}`
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+          showError(data.error || "Booking lookup failed.");
+          processing = false;
+          return;
+        }
+
+        await stopScanner();
+        showBooking(data.booking);
+
+      } catch (error) {
+        console.error(error);
+        showError("Could not contact the booking server.");
+      }
+
+      processing = false;
+    }
+
+    function showBooking(b) {
+      const paid = String(b.paymentStatus).toLowerCase() === "paid";
+      const checked = !!b.checkedIn;
+
+      let type = "valid";
+      let title = "VALID TICKET";
+
+      if (!paid) {
+        type = "warning";
+        title = "PAYMENT NOT CONFIRMED";
+      } else if (checked) {
+        type = "warning";
+        title = "ALREADY CHECKED IN";
+      }
+
+      const ticketLines = [
+        ["Weekender Adult", b.weekendAdult],
+        ["Weekender Child", b.weekendChild],
+        ["Saturday Adult", b.saturdayAdult],
+        ["Saturday Child", b.saturdayChild],
+        ["Rodeo Bull Ride", b.rodeo]
+      ].filter(([,qty]) => Number(qty) > 0);
+
+      const ticketsHtml = ticketLines.map(([name,qty]) => `
+        <div class="detail-line">
+          <span>${name}</span>
+          <strong>${qty}</strong>
+        </div>
+      `).join("");
+
+      const checkedTime = checked && b.checkedInAt
+        ? new Date(b.checkedInAt).toLocaleString("en-GB")
+        : "";
+
+      document.getElementById("resultContent").innerHTML = `
+        <div class="result-box ${type}">
+          <h2 class="result-title">${title}</h2>
+          <div>${escapeHtml(b.firstName)} ${escapeHtml(b.lastName)}</div>
+
+          <div class="ref">${escapeHtml(b.ref)}</div>
+
+          <div class="details">
+            ${ticketsHtml}
+            <div class="detail-line">
+              <span>Payment</span>
+              <strong>${escapeHtml(b.paymentStatus)}</strong>
+            </div>
+            <div class="detail-line">
+              <span>Total</span>
+              <strong>${money(b.total)}</strong>
+            </div>
+            ${checked ? `
+              <div class="detail-line">
+                <span>Checked in</span>
+                <strong>${escapeHtml(checkedTime)}</strong>
+              </div>` : ""}
+          </div>
+
+          <div class="action-row">
+            ${paid && !checked
+              ? '<button class="primary" id="checkInBtn" type="button">CHECK IN</button>'
+              : ""
+            }
+            <button class="secondary" id="nextScanBtn" type="button">NEXT SCAN</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("result").style.display = "block";
+
+      const checkInBtn = document.getElementById("checkInBtn");
+      if (checkInBtn) {
+        checkInBtn.addEventListener("click", checkInCurrentBooking);
+      }
+
+      document.getElementById("nextScanBtn")
+        .addEventListener("click", nextScan);
+    }
+
+    async function checkInCurrentBooking() {
+      const pin = getPin();
+
+      const button = document.getElementById("checkInBtn");
+      if (button) {
+        button.disabled = true;
+        button.textContent = "CHECKING IN...";
+      }
+
+      try {
+        const response = await fetch(API_URL, {
+          method:"POST",
+          headers:{
+            "Content-Type":"text/plain;charset=utf-8"
+          },
+          body:JSON.stringify({
+            action:"checkin",
+            ref:currentRef,
+            pin
+          })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          if (data.booking) {
+            showBooking(data.booking);
+          } else {
+            showError(data.error || "Check-in failed.");
+          }
+          return;
+        }
+
+        showCheckedIn(data.booking);
+
+      } catch (error) {
+        console.error(error);
+        showError("Could not complete check-in.");
+      }
+    }
+
+    function showCheckedIn(b) {
+      document.getElementById("resultContent").innerHTML = `
+        <div class="result-box valid">
+          <h2 class="result-title">CHECKED IN ✓</h2>
+          <div>${escapeHtml(b.firstName)} ${escapeHtml(b.lastName)}</div>
+          <div class="ref">${escapeHtml(b.ref)}</div>
+
+          <div class="action-row">
+            <button class="primary" id="nextScanBtn" type="button">NEXT SCAN</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("nextScanBtn")
+        .addEventListener("click", nextScan);
+    }
+
+    function showError(message) {
+      document.getElementById("result").style.display = "block";
+      document.getElementById("resultContent").innerHTML = `
+        <div class="result-box invalid">
+          <h2 class="result-title">TICKET ERROR</h2>
+          <div>${escapeHtml(message)}</div>
+          <div class="action-row">
+            <button class="secondary" id="nextScanBtn" type="button">TRY AGAIN</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("nextScanBtn")
+        .addEventListener("click", nextScan);
+    }
+
+    async function nextScan() {
+      currentRef = "";
+      processing = false;
+      document.getElementById("manualRef").value = "";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("scannerState").textContent = "Ready to scan";
+      await startScanner();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+
+    startScanner();
+  </script>
+</body>
+</html>
