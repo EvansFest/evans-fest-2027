@@ -41,6 +41,14 @@
     .product h3{margin:0 0 7px;font-size:22px}.product p{margin:0;color:var(--muted);line-height:1.45}
     .price{white-space:nowrap;font-size:22px;font-weight:900;color:var(--accent,var(--purple))}
     .price-note{font-size:12px;color:var(--muted);margin-top:3px;text-align:right}
+    .standard-price{
+      margin-top:4px;
+      font-size:14px;
+      font-weight:750;
+      color:#9ca3af;
+      text-decoration:line-through;
+      text-decoration-thickness:2px;
+    }
     .controls{margin-top:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .stepper{display:inline-grid;grid-template-columns:42px 56px 42px;align-items:center;border:1px solid #ded7d0;border-radius:14px;overflow:hidden;background:#fff}
     .stepper button{border:0;height:42px;font-size:24px;background:#f7f4f0;cursor:pointer;color:var(--ink)}
@@ -99,7 +107,7 @@
       <article class="product" style="--accent:#6b46c1">
         <div class="product-top">
           <div><h3>Weekender Adult</h3><p>Adult admission for Friday 23 & Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-weekendAdult">£30</div><div class="price-note" id="note-weekendAdult">Early Bird</div></div>
+          <div><div class="price" id="price-weekendAdult">£30</div><div class="standard-price" id="standard-weekendAdult">£35</div><div class="price-note" id="note-weekendAdult">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
           <button type="button" data-action="minus" data-key="weekendAdult">−</button>
@@ -111,7 +119,7 @@
       <article class="product" style="--accent:#e84a9b">
         <div class="product-top">
           <div><h3>Weekender Child</h3><p>Child admission for Friday 23 & Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-weekendChild">£5</div><div class="price-note" id="note-weekendChild">Early Bird</div></div>
+          <div><div class="price" id="price-weekendChild">£5</div><div class="standard-price" id="standard-weekendChild">£5</div><div class="price-note" id="note-weekendChild">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
           <button type="button" data-action="minus" data-key="weekendChild">−</button>
@@ -123,7 +131,7 @@
       <article class="product" style="--accent:#f28b35">
         <div class="product-top">
           <div><h3>Saturday Adult</h3><p>Adult day admission for Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-saturdayAdult">£12</div><div class="price-note" id="note-saturdayAdult">Early Bird</div></div>
+          <div><div class="price" id="price-saturdayAdult">£12</div><div class="standard-price" id="standard-saturdayAdult">£15</div><div class="price-note" id="note-saturdayAdult">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
           <button type="button" data-action="minus" data-key="saturdayAdult">−</button>
@@ -135,7 +143,7 @@
       <article class="product" style="--accent:#2f9e78">
         <div class="product-top">
           <div><h3>Saturday Child</h3><p>Child day admission for Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-saturdayChild">£5</div><div class="price-note" id="note-saturdayChild">Early Bird</div></div>
+          <div><div class="price" id="price-saturdayChild">£5</div><div class="standard-price" id="standard-saturdayChild">£5</div><div class="price-note" id="note-saturdayChild">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
           <button type="button" data-action="minus" data-key="saturdayChild">−</button>
@@ -214,6 +222,11 @@
     ["weekendAdult","weekendChild","saturdayAdult","saturdayChild"].forEach(key => {
       document.getElementById(`price-${key}`).textContent = money(products[key].price);
       document.getElementById(`note-${key}`).textContent = isEarlyBird ? "Early Bird" : "Standard";
+
+      const standardPrice = document.getElementById(`standard-${key}`);
+      if (standardPrice) {
+        standardPrice.style.display = isEarlyBird ? "block" : "none";
+      }
     });
   }
 
