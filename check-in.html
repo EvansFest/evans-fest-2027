@@ -458,8 +458,21 @@
       return sessionStorage.getItem("evansFestStaffPin") || "";
     }
 
+    function getStaffName() {
+      return sessionStorage.getItem("evansFestStaffName") || "";
+    }
+
     function setPin(pin) {
       sessionStorage.setItem("evansFestStaffPin", pin);
+    }
+
+    function setStaffName(name) {
+      sessionStorage.setItem("evansFestStaffName", name);
+    }
+
+    function clearStaffSession() {
+      sessionStorage.removeItem("evansFestStaffPin");
+      sessionStorage.removeItem("evansFestStaffName");
     }
 
     function setStaffIdentity(name) {
@@ -475,29 +488,62 @@
       }
     }
 
-    document.getElementById("staffPin").value = getPin();
-
-    document.getElementById("savePinBtn").addEventListener("click", () => {
-      const pin = document.getElementById("staffPin").value.trim();
+    async function loginStaff() {
+      const input = document.getElementById("staffPin");
+      const button = document.getElementById("savePinBtn");
+      const pin = input.value.trim();
 
       if (!pin) {
         document.getElementById("scannerState").textContent = "Enter a staff PIN";
         return;
       }
 
-      setPin(pin);
-      setStaffIdentity("");
+      button.disabled = true;
+      button.textContent = "LOGGING IN...";
+      document.getElementById("scannerState").textContent = "Checking staff PIN...";
 
-      document.getElementById("scannerState").textContent =
-        "PIN saved — scan or look up a ticket to verify your login";
+      try {
+        const response = await fetch(
+          `${API_URL}?action=stafflogin&pin=${encodeURIComponent(pin)}`
+        );
+        const data = await response.json();
+
+        if (!data.success || !data.staffName) {
+          throw new Error(data.error || "Invalid staff PIN.");
+        }
+
+        setPin(pin);
+        setStaffName(data.staffName);
+        setStaffIdentity(data.staffName);
+        input.value = "";
+        document.getElementById("result").style.display = "none";
+        document.getElementById("scannerState").textContent = "Ready to scan";
+        await startScanner();
+      } catch (error) {
+        console.error(error);
+        clearStaffSession();
+        setStaffIdentity("");
+        document.getElementById("scannerState").textContent =
+          error.message || "Invalid staff PIN.";
+      } finally {
+        button.disabled = false;
+        button.textContent = "LOG IN";
+      }
+    }
+
+    document.getElementById("savePinBtn").addEventListener("click", loginStaff);
+
+    document.getElementById("staffPin").addEventListener("keydown", e => {
+      if (e.key === "Enter") loginStaff();
     });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
-      sessionStorage.removeItem("evansFestStaffPin");
+      clearStaffSession();
       document.getElementById("staffPin").value = "";
       setStaffIdentity("");
       currentRef = "";
       processing = false;
+      document.getElementById("manualRef").value = "";
       document.getElementById("result").style.display = "none";
       document.getElementById("scannerState").textContent = "Enter a staff PIN";
       await stopScanner();
@@ -577,7 +623,7 @@
       const button = document.getElementById("openSumUpBtn");
 
       if (!pin) {
-        showError("Enter and save your staff PIN first.");
+        showError("Log in with your staff PIN first.");
         return;
       }
 
@@ -800,6 +846,7 @@
         }
 
         if (data.staffName) {
+          setStaffName(data.staffName);
           setStaffIdentity(data.staffName);
         }
 
@@ -992,8 +1039,23 @@
         .replace(/'/g,"&#039;");
     }
 
+    async function restoreStaffLogin() {
+      const savedPin = getPin();
+      const savedName = getStaffName();
+
+      if (savedPin && savedName) {
+        setStaffIdentity(savedName);
+        document.getElementById("scannerState").textContent = "Ready to scan";
+        await startScanner();
+      } else {
+        clearStaffSession();
+        setStaffIdentity("");
+        document.getElementById("scannerState").textContent = "Enter a staff PIN";
+      }
+    }
+
     renderSale();
-    startScanner();
+    restoreStaffLogin();
   </script>
 </body>
 </html>
