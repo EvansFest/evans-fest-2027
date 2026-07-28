@@ -222,6 +222,7 @@
         <button class="secondary" id="savePinBtn" type="button">SAVE PIN</button>
       </div>
       <p class="hint">The PIN is stored only in this browser session.</p>
+      <div id="staffIdentity" style="margin-top:10px;font-weight:900;color:#6b46c1;"></div>
     </section>
 
     <section class="card">
@@ -250,6 +251,7 @@
     let scannerRunning = false;
     let processing = false;
     let currentRef = "";
+    let loggedInStaff = "";
 
     const money = value =>
       new Intl.NumberFormat("en-GB", {
@@ -265,13 +267,20 @@
       sessionStorage.setItem("evansFestStaffPin", pin);
     }
 
+    function setStaffIdentity(name) {
+      loggedInStaff = name || "";
+      document.getElementById("staffIdentity").textContent =
+        loggedInStaff ? `Logged in as ${loggedInStaff}` : "";
+    }
+
     document.getElementById("staffPin").value = getPin();
 
     document.getElementById("savePinBtn").addEventListener("click", () => {
       const pin = document.getElementById("staffPin").value.trim();
       setPin(pin);
+      setStaffIdentity("");
       document.getElementById("scannerState").textContent =
-        pin ? "PIN saved — ready to scan" : "Enter a staff PIN";
+        pin ? "PIN saved — scan a ticket to verify your login" : "Enter a staff PIN";
     });
 
     document.getElementById("lookupBtn").addEventListener("click", () => {
@@ -361,6 +370,10 @@
           return;
         }
 
+        if (data.staffName) {
+          setStaffIdentity(data.staffName);
+        }
+
         await stopScanner();
         showBooking(data.booking);
 
@@ -427,7 +440,12 @@
               <div class="detail-line">
                 <span>Checked in</span>
                 <strong>${escapeHtml(checkedTime)}</strong>
-              </div>` : ""}
+              </div>
+              ${b.checkedInBy ? `
+                <div class="detail-line">
+                  <span>Checked in by</span>
+                  <strong>${escapeHtml(b.checkedInBy)}</strong>
+                </div>` : ""}` : ""}
           </div>
 
           <div class="action-row">
@@ -498,6 +516,9 @@
           <h2 class="result-title">CHECKED IN ✓</h2>
           <div>${escapeHtml(b.firstName)} ${escapeHtml(b.lastName)}</div>
           <div class="ref">${escapeHtml(b.ref)}</div>
+          <div style="margin-top:8px;color:#6b7280;font-size:14px;">
+            Checked in by ${escapeHtml(loggedInStaff || b.checkedInBy || "staff")}
+          </div>
 
           <div class="action-row">
             <button class="primary" id="nextScanBtn" type="button">NEXT SCAN</button>
