@@ -200,6 +200,104 @@
       margin:0 0 14px;
     }
 
+    .sale-toggle{
+      width:100%;
+      padding:17px;
+      font-size:17px;
+      color:#fff;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+      box-shadow:0 10px 24px rgba(107,70,193,.22);
+    }
+
+    .sale-panel{display:none}
+    .sale-panel.open{display:block}
+
+    .sale-product{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:14px;
+      align-items:center;
+      padding:14px 0;
+      border-bottom:1px solid #eee8e1;
+    }
+
+    .sale-product:last-child{border-bottom:0}
+    .sale-product strong{display:block}
+    .sale-product span{color:var(--muted);font-size:13px}
+
+    .sale-stepper{
+      display:grid;
+      grid-template-columns:38px 42px 38px;
+      align-items:center;
+      border:1px solid #ded7d0;
+      border-radius:12px;
+      overflow:hidden;
+    }
+
+    .sale-stepper button{
+      padding:8px;
+      border-radius:0;
+      background:#f7f4f0;
+      font-size:20px;
+    }
+
+    .sale-qty{text-align:center;font-weight:900}
+
+    .sale-total{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      margin-top:16px;
+      font-size:20px;
+      font-weight:900;
+    }
+
+    .sale-total strong{
+      font-size:30px;
+      color:var(--purple);
+    }
+
+    .sale-fields{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .sale-fields .full{grid-column:1/-1}
+
+    .donation-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .donation-chip{
+      padding:9px 12px;
+      color:var(--purple);
+      background:#f3edff;
+    }
+
+    .donation-chip.active{
+      color:#fff;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+    }
+
+    .pos-pending{
+      margin-top:16px;
+      padding:18px;
+      border-radius:18px;
+      background:#fff7df;
+      border:1px solid #efd792;
+      color:#6f5517;
+    }
+
+    @media(max-width:560px){
+      .sale-fields{grid-template-columns:1fr}
+      .sale-fields .full{grid-column:auto}
+    }
+
     @media(max-width:560px){
       .pin-row,.manual-row{grid-template-columns:1fr}
       .pin-row button,.manual-row button{width:100%}
@@ -237,6 +335,77 @@
       </div>
     </section>
 
+    <section class="card">
+      <button id="sellTicketsToggle" class="sale-toggle" type="button">SELL TICKETS AT THE GATE</button>
+
+      <div id="salePanel" class="sale-panel">
+        <div style="margin-top:18px;">
+          <div class="sale-product">
+            <div><strong>Weekender Adult</strong><span id="salePrice-weekendAdult">£30.00</span></div>
+            <div class="sale-stepper">
+              <button type="button" data-sale-action="minus" data-sale-key="weekendAdult">−</button>
+              <div class="sale-qty" id="saleQty-weekendAdult">0</div>
+              <button type="button" data-sale-action="plus" data-sale-key="weekendAdult">+</button>
+            </div>
+          </div>
+
+          <div class="sale-product">
+            <div><strong>Weekender Child</strong><span id="salePrice-weekendChild">£5.00</span></div>
+            <div class="sale-stepper">
+              <button type="button" data-sale-action="minus" data-sale-key="weekendChild">−</button>
+              <div class="sale-qty" id="saleQty-weekendChild">0</div>
+              <button type="button" data-sale-action="plus" data-sale-key="weekendChild">+</button>
+            </div>
+          </div>
+
+          <div class="sale-product">
+            <div><strong>Saturday Adult</strong><span id="salePrice-saturdayAdult">£12.00</span></div>
+            <div class="sale-stepper">
+              <button type="button" data-sale-action="minus" data-sale-key="saturdayAdult">−</button>
+              <div class="sale-qty" id="saleQty-saturdayAdult">0</div>
+              <button type="button" data-sale-action="plus" data-sale-key="saturdayAdult">+</button>
+            </div>
+          </div>
+
+          <div class="sale-product">
+            <div><strong>Saturday Child</strong><span id="salePrice-saturdayChild">£5.00</span></div>
+            <div class="sale-stepper">
+              <button type="button" data-sale-action="minus" data-sale-key="saturdayChild">−</button>
+              <div class="sale-qty" id="saleQty-saturdayChild">0</div>
+              <button type="button" data-sale-action="plus" data-sale-key="saturdayChild">+</button>
+            </div>
+          </div>
+
+          <div style="margin-top:18px;font-weight:900;">Optional donation</div>
+          <div class="donation-row">
+            <button class="donation-chip active" type="button" data-sale-donation="0">None</button>
+            <button class="donation-chip" type="button" data-sale-donation="2">£2</button>
+            <button class="donation-chip" type="button" data-sale-donation="5">£5</button>
+            <button class="donation-chip" type="button" data-sale-donation="10">£10</button>
+            <button class="donation-chip" type="button" data-sale-donation="20">£20</button>
+          </div>
+
+          <div class="sale-fields">
+            <input id="saleFirstName" type="text" placeholder="First name (optional)" />
+            <input id="saleLastName" type="text" placeholder="Last name (optional)" />
+            <input id="saleEmail" class="full" type="email" placeholder="Email for ticket receipt (optional)" />
+            <input id="salePhone" class="full" type="tel" placeholder="Mobile for SumUp receipt (optional)" />
+          </div>
+
+          <div class="sale-total">
+            <span>Total</span>
+            <strong id="saleTotal">£0.00</strong>
+          </div>
+
+          <button id="openSumUpBtn" class="primary" type="button" style="width:100%;margin-top:16px;">
+            OPEN SUMUP & TAKE PAYMENT
+          </button>
+
+          <div id="posPendingBox"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="card" id="result">
       <div id="resultContent"></div>
     </section>
@@ -252,6 +421,23 @@
     let processing = false;
     let currentRef = "";
     let loggedInStaff = "";
+
+    const SALE_EARLY_BIRD_END = new Date("2026-09-30T22:59:59Z");
+    const saleIsEarlyBird = new Date() <= SALE_EARLY_BIRD_END;
+
+    const salePrices = saleIsEarlyBird
+      ? { weekendAdult:30, weekendChild:5, saturdayAdult:12, saturdayChild:5 }
+      : { weekendAdult:35, weekendChild:5, saturdayAdult:15, saturdayChild:5 };
+
+    const saleQty = {
+      weekendAdult:0,
+      weekendChild:0,
+      saturdayAdult:0,
+      saturdayChild:0
+    };
+
+    let saleDonation = 0;
+    let pendingPOSRef = "";
 
     const money = value =>
       new Intl.NumberFormat("en-GB", {
@@ -292,6 +478,215 @@
         lookupRef(e.target.value);
       }
     });
+
+    const saleMoney = value =>
+      new Intl.NumberFormat("en-GB", {
+        style:"currency",
+        currency:"GBP"
+      }).format(Number(value || 0));
+
+    function renderSale() {
+      Object.keys(saleQty).forEach(key => {
+        document.getElementById(`saleQty-${key}`).textContent = saleQty[key];
+        document.getElementById(`salePrice-${key}`).textContent = saleMoney(salePrices[key]);
+      });
+
+      const ticketTotal =
+        saleQty.weekendAdult * salePrices.weekendAdult +
+        saleQty.weekendChild * salePrices.weekendChild +
+        saleQty.saturdayAdult * salePrices.saturdayAdult +
+        saleQty.saturdayChild * salePrices.saturdayChild;
+
+      document.getElementById("saleTotal").textContent =
+        saleMoney(ticketTotal + saleDonation);
+    }
+
+    document.getElementById("sellTicketsToggle").addEventListener("click", async () => {
+      const panel = document.getElementById("salePanel");
+      panel.classList.toggle("open");
+
+      if (panel.classList.contains("open")) {
+        await stopScanner();
+      } else {
+        await startScanner();
+      }
+    });
+
+    document.querySelectorAll("[data-sale-action]").forEach(button => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.saleKey;
+
+        saleQty[key] = button.dataset.saleAction === "plus"
+          ? saleQty[key] + 1
+          : Math.max(0, saleQty[key] - 1);
+
+        renderSale();
+      });
+    });
+
+    document.querySelectorAll("[data-sale-donation]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-sale-donation]").forEach(item => {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        saleDonation = Number(button.dataset.saleDonation) || 0;
+        renderSale();
+      });
+    });
+
+    document.getElementById("openSumUpBtn").addEventListener("click", createGateSale);
+
+    async function createGateSale() {
+      const pin = getPin();
+      const button = document.getElementById("openSumUpBtn");
+
+      if (!pin) {
+        showError("Enter and save your staff PIN first.");
+        return;
+      }
+
+      const ticketCount = Object.values(saleQty).reduce((sum, qty) => sum + qty, 0);
+
+      if (!ticketCount) {
+        alert("Add at least one ticket.");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "CREATING SALE...";
+
+      try {
+        const response = await fetch(API_URL, {
+          method:"POST",
+          headers:{
+            "Content-Type":"text/plain;charset=utf-8"
+          },
+          body:JSON.stringify({
+            action:"createpos",
+            pin,
+            tickets:saleQty,
+            donation:saleDonation,
+            customer:{
+              firstName:document.getElementById("saleFirstName").value.trim(),
+              lastName:document.getElementById("saleLastName").value.trim(),
+              email:document.getElementById("saleEmail").value.trim(),
+              phone:document.getElementById("salePhone").value.trim()
+            }
+          })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || "Could not create gate sale.");
+        }
+
+        pendingPOSRef = data.bookingRef;
+
+        document.getElementById("posPendingBox").innerHTML = `
+          <div class="pos-pending">
+            <strong>Booking ${escapeHtml(data.bookingRef)}</strong><br>
+            Amount to take: <strong>${saleMoney(data.total)}</strong><br><br>
+            Complete the payment in the SumUp app, then return here and press Verify Payment.
+            <div class="action-row">
+              <button class="primary" id="verifyPOSBtn" type="button">VERIFY PAYMENT</button>
+              <button class="secondary" id="reopenSumUpBtn" type="button">REOPEN SUMUP</button>
+            </div>
+          </div>
+        `;
+
+        document.getElementById("verifyPOSBtn")
+          .addEventListener("click", verifyGatePayment);
+
+        document.getElementById("reopenSumUpBtn")
+          .addEventListener("click", () => {
+            window.location.href = data.paymentSwitchUrl;
+          });
+
+        // Handoff to the installed SumUp app.
+        window.location.href = data.paymentSwitchUrl;
+
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        button.disabled = false;
+        button.textContent = "OPEN SUMUP & TAKE PAYMENT";
+      }
+    }
+
+    async function verifyGatePayment() {
+      if (!pendingPOSRef) {
+        alert("There is no pending gate sale.");
+        return;
+      }
+
+      const button = document.getElementById("verifyPOSBtn");
+      if (button) {
+        button.disabled = true;
+        button.textContent = "VERIFYING...";
+      }
+
+      try {
+        const response = await fetch(API_URL, {
+          method:"POST",
+          headers:{
+            "Content-Type":"text/plain;charset=utf-8"
+          },
+          body:JSON.stringify({
+            action:"verifypos",
+            pin:getPin(),
+            ref:pendingPOSRef,
+            checkIn:true
+          })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || "Payment has not been confirmed yet.");
+        }
+
+        document.getElementById("posPendingBox").innerHTML = `
+          <div class="result-box valid" style="margin-top:16px;">
+            <h2 class="result-title">PAYMENT VERIFIED ✓</h2>
+            <div class="ref">${escapeHtml(data.bookingRef)}</div>
+            <div>Guest has been marked Paid and Checked In.</div>
+          </div>
+        `;
+
+        resetGateSale();
+
+      } catch (error) {
+        alert(error.message);
+
+        if (button) {
+          button.disabled = false;
+          button.textContent = "VERIFY PAYMENT";
+        }
+      }
+    }
+
+    function resetGateSale() {
+      Object.keys(saleQty).forEach(key => {
+        saleQty[key] = 0;
+      });
+
+      saleDonation = 0;
+      pendingPOSRef = "";
+
+      document.getElementById("saleFirstName").value = "";
+      document.getElementById("saleLastName").value = "";
+      document.getElementById("saleEmail").value = "";
+      document.getElementById("salePhone").value = "";
+
+      document.querySelectorAll("[data-sale-donation]").forEach(item => {
+        item.classList.toggle("active", item.dataset.saleDonation === "0");
+      });
+
+      renderSale();
+    }
 
     async function startScanner() {
       if (scannerRunning) return;
@@ -563,6 +958,7 @@
         .replace(/'/g,"&#039;");
     }
 
+    renderSale();
     startScanner();
   </script>
 </body>
