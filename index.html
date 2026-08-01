@@ -49,6 +49,9 @@
       text-decoration:line-through;
       text-decoration-thickness:2px;
     }
+    .ticket-section-locked{opacity:.48;filter:grayscale(1);pointer-events:none;user-select:none}
+    .ticket-section-locked .product{background:#f4f4f4;box-shadow:none}
+    .ticket-lock-message{margin:0 0 18px;padding:14px 16px;border-radius:16px;background:#f3f4f6;border:1px solid #d8dbe0;color:#6b7280;font-weight:800;text-align:center}
     .controls{margin-top:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .stepper{display:inline-grid;grid-template-columns:42px 56px 42px;align-items:center;border:1px solid #ded7d0;border-radius:14px;overflow:hidden;background:#fff}
     .stepper button{border:0;height:42px;font-size:24px;background:#f7f4f0;cursor:pointer;color:var(--ink)}
@@ -82,34 +85,6 @@
     .custom-donation{display:none;margin-top:14px;max-width:240px}
     .donation-note{margin-top:12px;font-size:13px;color:var(--muted)}
 
-    .payment-confirmation{display:none;margin-top:28px}
-    .payment-confirmation.active{display:block}
-    .payment-card{
-      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-      padding:28px;box-shadow:var(--shadow);max-width:760px;margin:0 auto;text-align:center
-    }
-    .payment-success{
-      width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;
-      background:#edf9f3;color:#177155;font-size:30px;font-weight:900
-    }
-    .payment-card h2{margin:0 0 8px;font-size:32px;letter-spacing:-.03em}
-    .payment-card>p{color:var(--muted);line-height:1.55}
-    .payment-amount{font-size:42px;font-weight:900;color:var(--purple);margin:14px 0 4px}
-    .payment-ref{
-      display:inline-block;margin:8px 0 20px;padding:12px 16px;border-radius:14px;
-      background:#f3edff;color:var(--purple);font-size:26px;font-weight:900;letter-spacing:.05em
-    }
-    .bank-details{
-      margin:20px auto 0;max-width:560px;text-align:left;border:1px solid #eadfd3;
-      border-radius:18px;padding:4px 18px;background:#fffdf8
-    }
-    .bank-row{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid #eee8e1}
-    .bank-row:last-child{border-bottom:0}.bank-row span{color:var(--muted)}.bank-row strong{text-align:right}
-    .payment-note{
-      margin-top:20px;padding:16px 18px;border-radius:16px;background:#fff7df;
-      border:1px solid #efd792;color:#6f5517;line-height:1.55;text-align:left
-    }
-
     footer{text-align:center;color:var(--muted);padding:24px 20px 50px}
     @media(max-width:850px){.grid,.layout,.fields{grid-template-columns:1fr}.basket{position:static}.field.full{grid-column:auto}}
     @media(max-width:540px){.hero{padding-top:54px;padding-bottom:72px}.shell{padding-inline:14px}.product,.panel{border-radius:20px;padding:18px}.product-top{flex-direction:column;gap:8px}.price-note{text-align:left}}
@@ -136,36 +111,70 @@
 
   <section>
     <div class="section-heading">
-      <h2>Tickets</h2>
-      <p>Pick the ticket types you need. Your basket only shows what you actually select.</p>
+      <h2>Early Bird Tickets</h2>
+      <p>Available until 30 September 2026.</p>
     </div>
-
-    <div class="grid">
+    <div class="ticket-lock-message" id="earlyBirdLockMessage" style="display:none;">Early Bird ticket sales have ended.</div>
+    <div class="grid" id="earlyBirdGrid">
       <article class="product" style="--accent:#6b46c1">
         <div class="product-top">
-          <div><h3>Weekender Adult</h3><p>Adult admission for Friday 23 & Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-weekendAdult">£35</div><div class="standard-price" id="standard-weekendAdult">£45</div><div class="price-note" id="note-weekendAdult">Early Bird</div></div>
+          <div><h3>Early Bird Weekender Adult</h3><p>Adult admission for Friday 23 &amp; Saturday 24 July 2027.</p></div>
+          <div><div class="price">£35.00</div><div class="price-note">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
-          <button type="button" data-action="minus" data-key="weekendAdult">−</button>
-          <div class="qty" id="qty-weekendAdult">0</div>
-          <button type="button" data-action="plus" data-key="weekendAdult">+</button>
+          <button type="button" data-action="minus" data-key="earlyWeekendAdult">−</button>
+          <div class="qty" id="qty-earlyWeekendAdult">0</div>
+          <button type="button" data-action="plus" data-key="earlyWeekendAdult">+</button>
         </div></div>
       </article>
 
       <article class="product" style="--accent:#e84a9b">
         <div class="product-top">
-          <div><h3>Weekender Child</h3><p>Child admission for Friday 23 & Saturday 24 July 2027.</p></div>
-          <div><div class="price" id="price-weekendChild">£5</div><div class="standard-price" id="standard-weekendChild">£5</div><div class="price-note" id="note-weekendChild">Early Bird</div></div>
+          <div><h3>Early Bird Weekender Child</h3><p>Child admission for Friday 23 &amp; Saturday 24 July 2027.</p></div>
+          <div><div class="price">£5.00</div><div class="price-note">Early Bird</div></div>
         </div>
         <div class="controls"><div class="stepper">
-          <button type="button" data-action="minus" data-key="weekendChild">−</button>
-          <div class="qty" id="qty-weekendChild">0</div>
-          <button type="button" data-action="plus" data-key="weekendChild">+</button>
+          <button type="button" data-action="minus" data-key="earlyWeekendChild">−</button>
+          <div class="qty" id="qty-earlyWeekendChild">0</div>
+          <button type="button" data-action="plus" data-key="earlyWeekendChild">+</button>
         </div></div>
       </article>
     </div>
   </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>Standard Tickets</h2>
+      <p>These automatically activate when Early Bird ends.</p>
+    </div>
+    <div class="ticket-lock-message" id="standardLockMessage">Standard tickets open on 1 October 2026.</div>
+    <div class="grid ticket-section-locked" id="standardGrid">
+      <article class="product" style="--accent:#6b46c1">
+        <div class="product-top">
+          <div><h3>Standard Weekender Adult</h3><p>Adult admission for Friday 23 &amp; Saturday 24 July 2027.</p></div>
+          <div><div class="price">£45.00</div><div class="price-note">Standard</div></div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="standardWeekendAdult">−</button>
+          <div class="qty" id="qty-standardWeekendAdult">0</div>
+          <button type="button" data-action="plus" data-key="standardWeekendAdult">+</button>
+        </div></div>
+      </article>
+
+      <article class="product" style="--accent:#e84a9b">
+        <div class="product-top">
+          <div><h3>Standard Weekender Child</h3><p>Child admission for Friday 23 &amp; Saturday 24 July 2027.</p></div>
+          <div><div class="price">£5.00</div><div class="price-note">Standard</div></div>
+        </div>
+        <div class="controls"><div class="stepper">
+          <button type="button" data-action="minus" data-key="standardWeekendChild">−</button>
+          <div class="qty" id="qty-standardWeekendChild">0</div>
+          <button type="button" data-action="plus" data-key="standardWeekendChild">+</button>
+        </div></div>
+      </article>
+    </div>
+  </section>
+
 <section class="donation-panel">
     <h2>💜 Support Evans Fest</h2>
     <p>Evans Fest is made possible by everyone who helps bring the weekend together. If you’d like to contribute a little extra towards keeping the festival running, you can add an optional donation to your booking.</p>
@@ -202,75 +211,27 @@
       <h2>Your Order</h2>
       <div id="basketLines"><div class="basket-empty">Nothing added yet. Choose your tickets above.</div></div>
       <div class="total-row"><span>Total</span><span id="basketTotal">£0.00</span></div>
-      <button id="checkoutBtn" class="checkout" type="button" disabled>BOOK TICKETS</button>
-      <div class="note">After your booking is created, your bank transfer details and unique payment reference will be shown.</div>
+      <button id="checkoutBtn" class="checkout" type="button" disabled>BOOK &amp; PAY</button>
+      <div class="note">After your booking is created, you’ll be taken to SumUp to complete secure payment.</div>
       <div id="checkoutStatus" class="status"></div>
     </aside>
   </section>
 </main>
 
 
-<section class="shell payment-confirmation" id="paymentConfirmation">
-  <div class="payment-card">
-    <div class="payment-success">✓</div>
-    <h2>Booking Received</h2>
-    <p>Your Evans Fest booking has been created. Please pay by bank transfer using the details below.</p>
-
-    <div class="payment-amount" id="paymentAmount">£0.00</div>
-
-    <div style="margin-top:18px;color:var(--muted);font-size:14px;">Your booking reference</div>
-    <div class="payment-ref" id="paymentReference"></div>
-
-    <h3 style="font-size:22px;margin:8px 0 10px;">Bank Transfer Details</h3>
-
-    <div class="bank-details">
-      <div class="bank-row">
-        <span>Name on account</span>
-        <strong id="bankAccountName">Michelle Babington</strong>
-      </div>
-      <div class="bank-row">
-        <span>Sort code</span>
-        <strong id="bankSortCode">11-12-14</strong>
-      </div>
-      <div class="bank-row">
-        <span>Account number</span>
-        <strong id="bankAccountNumber">11150862</strong>
-      </div>
-      <div class="bank-row">
-        <span>Payment reference</span>
-        <strong id="bankPaymentReference"></strong>
-      </div>
-    </div>
-
-    <div class="payment-note">
-      <strong>Important:</strong> Please use your booking reference exactly as shown above when making the transfer.
-      Your QR tickets will be emailed automatically once your payment has been manually confirmed.
-    </div>
-  </div>
-</section>
 
 <footer>Evans Fest 2027 · 23 &amp; 24 July 2027</footer>
 
 <script>
   const BOOKING_API_URL = "https://script.google.com/macros/s/AKfycbyzV6sbQq0jJWqZj1T3xCluXF4Y7NRxn2XBzLipzP28KyRdFjVOapIHA69Dg8IUnM_r/exec";
   const EARLY_BIRD_END = new Date("2026-09-30T23:59:59+01:00");
-
-  const earlyBirdPrices = {
-    weekendAdult: 35.00,
-    weekendChild: 5.00
-  };
-
-  const standardPrices = {
-    weekendAdult: 45.00,
-    weekendChild: 5.00
-  };
-
   const isEarlyBird = new Date() <= EARLY_BIRD_END;
-  const activeTicketPrices = isEarlyBird ? earlyBirdPrices : standardPrices;
 
   const products = {
-    weekendAdult: { name: "Weekender Adult", price: activeTicketPrices.weekendAdult, type: "ticket" },
-    weekendChild: { name: "Weekender Child", price: activeTicketPrices.weekendChild, type: "ticket" }
+    earlyWeekendAdult: { name:"Early Bird Weekender Adult", price:35.00, backendKey:"weekendAdult", tier:"Early Bird" },
+    earlyWeekendChild: { name:"Early Bird Weekender Child", price:5.00, backendKey:"weekendChild", tier:"Early Bird" },
+    standardWeekendAdult: { name:"Standard Weekender Adult", price:45.00, backendKey:"weekendAdult", tier:"Standard" },
+    standardWeekendChild: { name:"Standard Weekender Child", price:5.00, backendKey:"weekendChild", tier:"Standard" }
   };
 
   const quantities = Object.fromEntries(Object.keys(products).map(key => [key, 0]));
@@ -284,19 +245,22 @@
       isEarlyBird ? "Early Bird Pricing" : "Standard Pricing";
 
     const banner = document.getElementById("pricingBanner");
-    banner.innerHTML = isEarlyBird
-      ? "<strong>Early Bird pricing is live</strong><span>Available until 30 September 2026.</span>"
-      : "<strong>Standard pricing now applies</strong><span>Early Bird pricing ended on 30 September 2026.</span>";
 
-    ["weekendAdult","weekendChild"].forEach(key => {
-      document.getElementById(`price-${key}`).textContent = money(products[key].price);
-      document.getElementById(`note-${key}`).textContent = isEarlyBird ? "Early Bird" : "Standard";
-
-      const standardPrice = document.getElementById(`standard-${key}`);
-      if (standardPrice) {
-        standardPrice.style.display = isEarlyBird ? "block" : "none";
-      }
-    });
+    if (isEarlyBird) {
+      banner.innerHTML = "<strong>Early Bird pricing is live</strong><span>Available until 30 September 2026.</span>";
+      document.getElementById("earlyBirdGrid").classList.remove("ticket-section-locked");
+      document.getElementById("earlyBirdLockMessage").style.display = "none";
+      document.getElementById("standardGrid").classList.add("ticket-section-locked");
+      document.getElementById("standardLockMessage").style.display = "block";
+    } else {
+      banner.innerHTML = "<strong>Standard pricing is now live</strong><span>Early Bird ticket sales ended on 30 September 2026.</span>";
+      document.getElementById("earlyBirdGrid").classList.add("ticket-section-locked");
+      document.getElementById("earlyBirdLockMessage").style.display = "block";
+      document.getElementById("standardGrid").classList.remove("ticket-section-locked");
+      document.getElementById("standardLockMessage").style.display = "none";
+      quantities.earlyWeekendAdult = 0;
+      quantities.earlyWeekendChild = 0;
+    }
   }
 
   function updateQtyDisplay(key) {
@@ -305,10 +269,22 @@
 
   function getSelectedItems() {
     return Object.entries(quantities)
-      .filter(([, qty]) => qty > 0)
+      .filter(([key, qty]) => {
+        if (qty <= 0) return false;
+        return isEarlyBird
+          ? products[key].tier === "Early Bird"
+          : products[key].tier === "Standard";
+      })
       .map(([key, qty]) => {
         const product = products[key];
-        return { key, name: product.name, type: product.type, qty, unitPrice: product.price, lineTotal: qty * product.price };
+        return {
+          key: product.backendKey,
+          name: product.name,
+          type: "ticket",
+          qty,
+          unitPrice: product.price,
+          lineTotal: qty * product.price
+        };
       });
   }
 
@@ -386,6 +362,14 @@
   document.querySelectorAll("[data-action]").forEach(button => {
     button.addEventListener("click", () => {
       const key = button.dataset.key;
+      const product = products[key];
+
+      const active =
+        (isEarlyBird && product.tier === "Early Bird") ||
+        (!isEarlyBird && product.tier === "Standard");
+
+      if (!active) return;
+
       quantities[key] = button.dataset.action === "plus"
         ? quantities[key] + 1
         : Math.max(0, quantities[key] - 1);
@@ -463,36 +447,24 @@
         throw new Error(data.error || "Booking could not be created.");
       }
 
-      if (!data.payment || !data.bookingRef) {
-        throw new Error("Booking was created, but the bank transfer details were not returned.");
+      if (!data.paymentUrl || !data.bookingRef) {
+        throw new Error("Booking was created, but no SumUp payment URL was returned.");
       }
-
-      document.getElementById("paymentAmount").textContent = money(data.total);
-      document.getElementById("paymentReference").textContent = data.bookingRef;
-      document.getElementById("bankPaymentReference").textContent =
-        data.payment.reference || data.bookingRef;
-
-      document.getElementById("bankAccountName").textContent =
-        data.payment.accountName || "Michelle Babington";
-
-      document.getElementById("bankSortCode").textContent =
-        data.payment.sortCode || "11-12-14";
-
-      document.getElementById("bankAccountNumber").textContent =
-        data.payment.accountNumber || "11150862";
 
       status.className = "status ok";
       status.innerHTML = `
         <strong>Booking created!</strong><br>
-        Your reference is <strong>${data.bookingRef}</strong>.
+        Your reference is <strong>${data.bookingRef}</strong><br>
+        Total: <strong>${money(data.total)}</strong><br><br>
+        Opening secure SumUp payment...
       `;
 
-      document.querySelector("main.shell").style.display = "none";
-      document.getElementById("paymentConfirmation").classList.add("active");
+      checkoutBtn.textContent = "OPENING SUMUP...";
+      checkoutBtn.disabled = true;
 
-      console.log("Booking created:", data);
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        window.location.href = data.paymentUrl;
+      }, 900);
 
     } catch (err) {
       console.error("Booking error:", err);
@@ -500,7 +472,7 @@
       status.textContent = "ERROR: " + err.message;
 
       checkoutBtn.disabled = false;
-      checkoutBtn.textContent = "BOOK TICKETS";
+      checkoutBtn.textContent = "BOOK & PAY";
     }
   });
 
